@@ -1,11 +1,16 @@
 package me.kareluo.safecase;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 
 import java.util.Arrays;
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 public class MainActivity extends ReactActivity {
 
@@ -15,7 +20,13 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "Project";
+        return "IndexComponent";
+    }
+
+    @Nullable
+    @Override
+    protected Bundle getLaunchOptions() {
+        return super.getLaunchOptions();
     }
 
     /**
@@ -33,8 +44,19 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected List<ReactPackage> getPackages() {
-        return Arrays.<ReactPackage>asList(
-                new MainReactPackage()
+        return Arrays.asList(
+                new MainReactPackage(),
+                new NativePackage()
         );
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case NativeNavigatorModule.REQ_FROM_JS:
+                NativeNavigatorModule.mQueue.add(data == null ? "" : data.getStringExtra("result"));
+                break;
+        }
     }
 }

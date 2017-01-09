@@ -1,52 +1,104 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+'use strict';
 
-import React, { Component } from 'react';
+import React, {
+  Component
+} from 'react';
 import {
-  AppRegistry,
-  StyleSheet,
   Text,
-  View
+  StyleSheet,
+  ScrollView,
+  AppRegistry,
+  ToastAndroid,
+  BackAndroid,
+  NavigationExperimental
 } from 'react-native';
+import LoginComponent from './app/android/login';
+import MainComponent from './app/android/main';
 
-class Project extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
-    );
+const {
+  CardStack: NavigationCardStack,
+  StateUtils: NavigationStateUtils
+} = NavigationExperimental;
+
+const LoginState = {
+  index: 0,
+  key: 'login',
+  children: [{key: 'login'}],
+}
+
+const ExampleReducer = function createReducer(currentState = LoginState, action) {
+  switch (action.type) {
+    case 'push':
+      return NavigationStateUtils.push(currentState, {key: action.key});
+    case 'back':
+    case 'pop':
+      return currentState.index > 0 ?
+        NavigationStateUtils.pop(currentState) : currentState;
+    default:
+      return currentState;
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+class IndexComponent extends React.Component {
+  
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      navState : ExampleReducer(undefined, {})
+    };
+  }
+  
+  componentWillMount() {
+    this.renderScene = this.renderScene.bind(this);
+    this.handleAction = this.handleAction.bind(this);
+  }
+  
+  componentDidMount() {
+    BackAndroid.addEventListener('hardwareBackPress', ()=>{
+      if(this.state.navState.index > 0) {
+        this.handleAction({ type: 'back', });
+        return true;
+      }
+      return false;
+    });
+  }
+  
+  componentWillUnmount() {
+    BackAndroid.removeEventListener('hardwareBackPress');
+  }
+  
+  renderScene(props) {
+    const nstate = this.state.navState;
+    switch(nstate.children[nstate.index].key) {
+      case 'login':
+        return <LoginComponent navigation={props}/>
+      case 'main':
+        return <MainComponent navigation={props}/>
+    }
+  }
+  
+  render() {
+    return (
+      <NavigationCardStack
+        navigationState={this.state.navState}
+        onNavigate={this.handleAction}
+        renderScene={this.renderScene}
+        style={{flex: 1}}
+      />
+    );
+  }
 
-AppRegistry.registerComponent('Project', () => Project);
+  handleAction(action): boolean {
+    if (!action) return false;
+    const newState = ExampleReducer(this.state.navState, action);
+    if (newState === this.state.navState) {
+      return false;
+    }
+    this.setState({
+      navState: newState,
+    });
+    return true;
+  }
+}
+
+AppRegistry.registerComponent('IndexComponent', () => IndexComponent);
