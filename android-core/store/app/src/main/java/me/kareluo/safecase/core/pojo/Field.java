@@ -1,14 +1,18 @@
 package me.kareluo.safecase.core.pojo;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
+import me.kareluo.safecase.core.pojo.dao.FieldDaoImpl;
 import me.kareluo.safecase.core.pojo.fields.FieldFields;
 
 /**
  * Created by felix on 2017/12/3 下午7:04.
  */
-
+@DatabaseTable(tableName = Field.TABLE_NAME, daoClass = FieldDaoImpl.class)
 public class Field implements FieldFields {
+
+    public static final String TABLE_NAME = "field";
 
     @DatabaseField(columnName = FIELD_UID, id = true)
     private String uid;

@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener {
-            startActivity(Intent(this, SecretEditActivity::class.java))
+            startActivity(Intent(this, SecretsEditActivity::class.java))
         }
 
         val toggle = ActionBarDrawerToggle(
@@ -28,6 +28,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+
+
     }
 
     override fun onBackPressed() {

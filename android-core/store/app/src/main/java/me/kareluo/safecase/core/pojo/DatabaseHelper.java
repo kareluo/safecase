@@ -3,6 +3,7 @@ package me.kareluo.safecase.core.pojo;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
+import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
@@ -20,7 +21,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper implements DatabaseC
         super(Provider.getApplicationContext(), DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    public static DatabaseHelper getInstance() {
+    private static DatabaseHelper getInstance() {
         if (mInstance == null) {
             synchronized (DatabaseHelper.class) {
                 if (mInstance == null) {
@@ -29,6 +30,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper implements DatabaseC
             }
         }
         return mInstance;
+    }
+
+    public static <D extends Dao<T, ?>, T> D get(Class<T> clazz) throws SQLException {
+        return getInstance().getDao(clazz);
     }
 
     @Override

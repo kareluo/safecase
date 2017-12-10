@@ -1,5 +1,6 @@
 package me.kareluo.safecase.core.pojo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,7 +10,9 @@ import java.util.List;
 public class SecretsViewModel extends Secrets {
 
     public static final int TYPE_HEAD = 0;
+
     public static final int TYPE_FIELD = 1;
+
     public static final int TYPE_SECRET = 2;
 
     private List<Field> fields;
@@ -70,5 +73,17 @@ public class SecretsViewModel extends Secrets {
         }
 
         return itemCount;
+    }
+
+    public List<Field> toFields() {
+        List<Field> fields = new ArrayList<>();
+
+        return fields;
+    }
+
+    public List<Secret> toSecrets() {
+        List<Secret> secrets = new ArrayList<>();
+
+        return secrets;
     }
 }

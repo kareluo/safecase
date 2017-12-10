@@ -21,9 +21,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SecretActivity" />
+        <activity android:name=".SecretsActivity" />
 
-        <activity android:name=".SecretEditActivity" />
+        <activity android:name=".SecretsEditActivity" />
 
     </application>
 

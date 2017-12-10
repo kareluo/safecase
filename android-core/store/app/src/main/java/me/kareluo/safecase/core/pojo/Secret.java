@@ -1,14 +1,18 @@
 package me.kareluo.safecase.core.pojo;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
+import me.kareluo.safecase.core.pojo.dao.SecretDaoImpl;
 import me.kareluo.safecase.core.pojo.fields.SecretFields;
 
 /**
  * Created by felix on 2017/12/3 下午6:53.
  */
-
+@DatabaseTable(tableName = Secret.TABLE_NAME, daoClass = SecretDaoImpl.class)
 public class Secret implements SecretFields {
+
+    public static final String TABLE_NAME = "secret";
 
     @DatabaseField(columnName = FIELD_UID)
     private String uid;
