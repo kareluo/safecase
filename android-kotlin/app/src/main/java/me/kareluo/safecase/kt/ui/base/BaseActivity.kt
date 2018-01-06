@@ -1,4 +1,4 @@
-package me.kareluo.safecase.kt
+package me.kareluo.safecase.kt.ui.base
 
 import android.annotation.SuppressLint
 import android.app.Dialog
@@ -6,6 +6,9 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.widget.Toast
+import me.kareluo.safecase.kt.core.Presenter
+import me.kareluo.safecase.kt.core.Viewer
+import me.kareluo.safecase.kt.widget.LoadingDialog
 
 /**
  * Created by felix on 2017/12/10 下午7:37.

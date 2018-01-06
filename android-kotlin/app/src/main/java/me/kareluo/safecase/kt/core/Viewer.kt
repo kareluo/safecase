@@ -1,4 +1,4 @@
-package me.kareluo.safecase.kt
+package me.kareluo.safecase.kt.core
 
 /**
  * Created by felix on 2017/12/10 下午10:30.

@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Safecase Core</string>
+
+    <string-array name="field_names">
+        <item>备注</item>
+        <item>网站</item>
+    </string-array>
+    
 </resources>

@@ -1,4 +1,4 @@
-package me.kareluo.safecase.kt
+package me.kareluo.safecase.kt.ui
 
 import android.app.Application
 import me.kareluo.safecase.core.pojo.Provider
@@ -12,7 +12,6 @@ class MainApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         Provider.init(applicationContext)
-
 
     }
 }

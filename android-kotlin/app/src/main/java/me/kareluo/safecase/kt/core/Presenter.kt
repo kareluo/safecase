@@ -1,4 +1,4 @@
-package me.kareluo.safecase.kt
+package me.kareluo.safecase.kt.core
 
 import io.reactivex.disposables.Disposable
 import java.util.*

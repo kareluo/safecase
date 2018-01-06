@@ -3,6 +3,10 @@ package me.kareluo.safecase.core.pojo;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import me.kareluo.safecase.core.pojo.dao.SecretDaoImpl;
 import me.kareluo.safecase.core.pojo.fields.SecretFields;
 
@@ -14,7 +18,7 @@ public class Secret implements SecretFields {
 
     public static final String TABLE_NAME = "secret";
 
-    @DatabaseField(columnName = FIELD_UID)
+    @DatabaseField(columnName = FIELD_UID, id = true)
     private String uid;
 
     @DatabaseField(columnName = FIELD_USERNAME)
@@ -40,6 +44,8 @@ public class Secret implements SecretFields {
 
     @DatabaseField(columnName = FIELD_CREATED)
     private Long created;
+
+    private List<Field> fields;
 
     public String getUid() {
         return uid;
@@ -89,6 +95,14 @@ public class Secret implements SecretFields {
         this.remark = remark;
     }
 
+    public String getBelong() {
+        return belong;
+    }
+
+    public void setBelong(String belong) {
+        this.belong = belong;
+    }
+
     public Long getUpdated() {
         return updated;
     }
@@ -105,18 +119,29 @@ public class Secret implements SecretFields {
         this.created = created;
     }
 
-    @Override
-    public String toString() {
-        return "Secret{" +
-                "uid='" + uid + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", passwordAlias='" + passwordAlias + '\'' +
-                ", reference='" + reference + '\'' +
-                ", remark='" + remark + '\'' +
-                ", belong='" + belong + '\'' +
-                ", updated=" + updated +
-                ", created=" + created +
-                '}';
+    public List<Field> getFields() {
+        return fields;
+    }
+
+    public int getFieldCount() {
+        return fields != null ? fields.size() : 0;
+    }
+
+    public void setFields(List<Field> fields) {
+        this.fields = fields;
+    }
+
+    public void addField() {
+        if (fields == null) {
+            this.fields = new ArrayList<>();
+        }
+        this.fields.add(Field.create(belong + ":" + uid));
+    }
+
+    public static Secret create(String belong) {
+        Secret secret = new Secret();
+        secret.setBelong(belong);
+        secret.setUid(UUID.randomUUID().toString());
+        return secret;
     }
 }

@@ -1,5 +1,8 @@
 package me.kareluo.safecase.core.pojo.dao;
 
+import java.sql.SQLException;
+import java.util.List;
+
 import me.kareluo.safecase.core.pojo.Secret;
 
 /**
@@ -7,5 +10,7 @@ import me.kareluo.safecase.core.pojo.Secret;
  */
 
 public interface SecretDao extends BaseDao<Secret, String> {
+
+    List<Secret> queryByBelong(String belong) throws SQLException;
 
 }

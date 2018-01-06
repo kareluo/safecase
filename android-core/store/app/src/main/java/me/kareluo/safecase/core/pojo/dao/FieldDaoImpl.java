@@ -3,6 +3,7 @@ package me.kareluo.safecase.core.pojo.dao;
 import com.j256.ormlite.support.ConnectionSource;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import me.kareluo.safecase.core.pojo.Field;
 
@@ -16,4 +17,8 @@ public class FieldDaoImpl extends BaseDaoImpl<Field, String> implements FieldDao
         super(connectionSource, Field.class);
     }
 
+    @Override
+    public List<Field> queryByBelong(String belong) throws SQLException {
+        return queryBuilder().where().eq(Field.FIELD_BELONG, belong).query();
+    }
 }

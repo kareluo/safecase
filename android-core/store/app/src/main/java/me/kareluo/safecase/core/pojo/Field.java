@@ -3,6 +3,8 @@ package me.kareluo.safecase.core.pojo;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.UUID;
+
 import me.kareluo.safecase.core.pojo.dao.FieldDaoImpl;
 import me.kareluo.safecase.core.pojo.fields.FieldFields;
 
@@ -13,6 +15,8 @@ import me.kareluo.safecase.core.pojo.fields.FieldFields;
 public class Field implements FieldFields {
 
     public static final String TABLE_NAME = "field";
+
+    public static final int TYPE_ = 0;
 
     @DatabaseField(columnName = FIELD_UID, id = true)
     private String uid;
@@ -34,6 +38,10 @@ public class Field implements FieldFields {
 
     @DatabaseField(columnName = FIELD_CREATED)
     private Long created;
+
+    public Field() {
+
+    }
 
     public String getUid() {
         return uid;
@@ -91,16 +99,10 @@ public class Field implements FieldFields {
         this.created = created;
     }
 
-    @Override
-    public String toString() {
-        return "Field{" +
-                "uid='" + uid + '\'' +
-                ", type=" + type +
-                ", name='" + name + '\'' +
-                ", value='" + value + '\'' +
-                ", belong='" + belong + '\'' +
-                ", updated=" + updated +
-                ", created=" + created +
-                '}';
+    public static Field create(String belong) {
+        Field field = new Field();
+        field.setUid(UUID.randomUUID().toString());
+        field.setBelong(belong);
+        return field;
     }
 }

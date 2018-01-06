@@ -1,8 +1,5 @@
 package me.kareluo.safecase.core.pojo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by felix on 2017/12/3 下午10:51.
  */
@@ -15,29 +12,19 @@ public class SecretsViewModel extends Secrets {
 
     public static final int TYPE_SECRET = 2;
 
-    private List<Field> fields;
-
-    private List<Secret> secrets;
-
-    public List<Field> getFields() {
-        return fields;
+    public SecretsViewModel() {
+        super();
     }
 
-    public void setFields(List<Field> fields) {
-        this.fields = fields;
-    }
-
-    public List<Secret> getSecrets() {
-        return secrets;
-    }
-
-    public void setSecrets(List<Secret> secrets) {
-        this.secrets = secrets;
+    public SecretsViewModel(Secrets secrets) {
+        super(secrets);
     }
 
     public int getViewType(int position) {
+
+        // Header
         int itemCount = 1;
-        if (position == 0) {
+        if (position < itemCount) {
             return TYPE_HEAD;
         }
 
@@ -48,42 +35,88 @@ public class SecretsViewModel extends Secrets {
             }
         }
 
-//        itemCount++;
-
         if (secrets != null) {
-            itemCount += secrets.size();
-            if (position < itemCount) {
-                return TYPE_SECRET;
+            for (Secret secret : secrets) {
+                itemCount++;
+                if (position < itemCount) {
+                    return TYPE_SECRET;
+                }
+                itemCount += secret.getFieldCount();
+                if (position < itemCount) {
+                    return TYPE_FIELD;
+                }
             }
         }
 
-        return 0;
+        return -1;
     }
 
     public int getItemCount() {
 
-        int itemCount = 2;
+        // Header
+        int itemCount = 1;
 
+        // Header's Fields
         if (fields != null) {
             itemCount += fields.size();
         }
 
         if (secrets != null) {
             itemCount += secrets.size();
+            for (Secret secret : secrets) {
+                itemCount += secret.getFieldCount();
+            }
         }
 
         return itemCount;
     }
 
-    public List<Field> toFields() {
-        List<Field> fields = new ArrayList<>();
+    public Secret getSecret(int position) {
 
-        return fields;
+        // Header
+        int itemCount = 1;
+
+        // Header's Fields
+        if (fields != null) {
+            itemCount += fields.size();
+        }
+
+        if (secrets != null) {
+            for (Secret secret : secrets) {
+                itemCount++;
+                if (position < itemCount) {
+                    return secret;
+                }
+                itemCount += secret.getFieldCount();
+            }
+        }
+
+        return null;
     }
 
-    public List<Secret> toSecrets() {
-        List<Secret> secrets = new ArrayList<>();
+    public Field getField(int position) {
 
-        return secrets;
+        // Header
+        int itemCount = 1;
+
+        // Header's Fields
+        if (fields != null) {
+            if (position < itemCount + fields.size()) {
+                return fields.get(position - itemCount);
+            }
+            itemCount += fields.size();
+        }
+
+        if (secrets != null) {
+            for (Secret secret : secrets) {
+                itemCount++;
+                if (position < itemCount + secret.getFieldCount()) {
+                    return secret.getFields().get(position - itemCount);
+                }
+                itemCount += secret.getFieldCount();
+            }
+        }
+
+        return null;
     }
 }
